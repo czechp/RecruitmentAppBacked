@@ -5,7 +5,11 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>core</module>
-	</modules>
+		<module>domain</module>
+		<module>persistence</module>
+		<module>app</module>
+        <module>adapter</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
