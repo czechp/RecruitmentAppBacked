@@ -5,14 +5,33 @@ import org.springframework.stereotype.Service;
 
 @Service()
 class QuestionCommandService {
-    private QuestionCommandRepository questionCommandRepository;
+    private final QuestionCommandRepository questionCommandRepository;
 
     @Autowired()
     QuestionCommandService(QuestionCommandRepository questionCommandRepository) {
         this.questionCommandRepository = questionCommandRepository;
     }
 
-    Question save(Question question){
-        return questionCommandRepository.save(question);
+    QuestionDto save(Question question){
+        return toDto(questionCommandRepository.save(question));
+    }
+
+    private QuestionDto toDto(final Question question) {
+        return new QuestionDto() {
+            @Override
+            public long getId() {
+                return question.getId();
+            }
+
+            @Override
+            public String getContent() {
+                return question.getContent();
+            }
+
+            @Override
+            public Category getCategory() {
+                return question.getCategory();
+            }
+        };
     }
 }

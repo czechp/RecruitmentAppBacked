@@ -19,10 +19,21 @@ class QuestionController {
         this.questionQueryRepository = questionQueryRepository;
     }
 
+    //TODO: handle exceptions
+
+
+    //TODO: make it facade from this
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     List<QuestionDto> findAll(){
         return questionQueryRepository.findAll();
+    }
+
+    //TODO: validate it
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    QuestionDto save(@RequestBody() Question question){
+        return questionCommandService.save(question);
     }
 
 }

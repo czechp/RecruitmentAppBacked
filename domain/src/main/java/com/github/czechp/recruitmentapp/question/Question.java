@@ -22,7 +22,7 @@ class Question {
     private long id;
 
     @NotBlank(message = "Question content cannot be blank")
-    @Length(min = 10, max = 1000, message = "Question has to got min. 5 and max. 1000 characters")
+    @Length(min = 5, max = 1000, message = "Question has to got min. 5 and max. 1000 characters")
     @Column(length = 1000)
     private String content;
 
