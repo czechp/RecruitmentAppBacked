@@ -12,5 +12,7 @@ class QuestionCommandService {
         this.questionCommandRepository = questionCommandRepository;
     }
 
-
+    Question save(Question question){
+        return questionCommandRepository.save(question);
+    }
 }

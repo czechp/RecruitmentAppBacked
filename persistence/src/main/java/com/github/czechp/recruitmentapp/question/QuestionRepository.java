@@ -1,9 +1,12 @@
 package com.github.czechp.recruitmentapp.question;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository()
-interface QuestionRepository extends JpaRepository<Question, Long> {
+import org.springframework.data.repository.Repository;
 
+import java.util.List;
+
+@org.springframework.stereotype.Repository()
+interface QuestionRepository extends Repository<Question, Long> {
+    Question save(Question question);
+    List<QuestionDto> findAllBy();
 }
