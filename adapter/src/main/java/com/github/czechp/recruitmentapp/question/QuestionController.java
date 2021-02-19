@@ -23,14 +23,20 @@ class QuestionController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    List<QuestionDto> findAll(){
+    List<QuestionDto> findAll() {
         return questionQueryService.findAll();
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    QuestionDto save(@RequestBody() @Valid final Question question){
+    QuestionDto save(@RequestBody() @Valid final Question question) {
         return questionCommandService.save(question);
+    }
+
+    @PutMapping("/{questionId}")
+    @ResponseStatus(HttpStatus.OK)
+    QuestionDto update(@RequestBody() @Valid() final Question question, @PathVariable(name = "questionId") final long questionId) {
+        return questionCommandService.update(questionId, question);
     }
 
 }

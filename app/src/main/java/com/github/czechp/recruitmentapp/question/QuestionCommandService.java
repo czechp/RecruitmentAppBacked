@@ -1,7 +1,10 @@
 package com.github.czechp.recruitmentapp.question;
 
+import com.github.czechp.recruitmentapp.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service()
 class QuestionCommandService {
@@ -12,7 +15,7 @@ class QuestionCommandService {
         this.questionCommandRepository = questionCommandRepository;
     }
 
-    QuestionDto save(Question question){
+    QuestionDto save(Question question) {
         return toDto(questionCommandRepository.save(question));
     }
 
@@ -33,5 +36,15 @@ class QuestionCommandService {
                 return question.getCategory();
             }
         };
+    }
+
+    @Transactional()
+    public QuestionDto update(long questionId, Question question) {
+        Question result = questionCommandRepository.findById(questionId)
+                .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
+        result.setContent(question.getContent());
+        result.setCategory(question.getCategory());
+
+        return toDto(result);
     }
 }

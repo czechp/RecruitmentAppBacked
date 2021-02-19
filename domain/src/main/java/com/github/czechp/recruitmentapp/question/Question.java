@@ -34,6 +34,11 @@ class Question {
     Question() {
     }
 
+    Question(@NotBlank(message = "Question content cannot be blank") @Length(min = 10, max = 1000, message = "Question has to got min. 5 and max. 1000 characters") final String content, final Category category) {
+        this.content = content;
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -42,11 +47,6 @@ class Question {
                 ", confirmed=" + confirmed +
                 ", category=" + category +
                 '}';
-    }
-
-    Question(@NotBlank(message = "Question content cannot be blank") @Length(min = 10, max = 1000, message = "Question has to got min. 5 and max. 1000 characters") final String content, final Category category) {
-        this.content = content;
-        this.category = category;
     }
 
     @Override

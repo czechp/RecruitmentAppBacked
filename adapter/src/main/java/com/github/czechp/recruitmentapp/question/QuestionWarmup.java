@@ -19,7 +19,7 @@ class QuestionWarmup {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    void init(){
+    void init() {
         Question question1 = new Question("First question", Category.PLC);
         Question question2 = new Question("Second question", Category.ELECTRIC);
         Question question3 = new Question("Third question", Category.SCHEMATIC);

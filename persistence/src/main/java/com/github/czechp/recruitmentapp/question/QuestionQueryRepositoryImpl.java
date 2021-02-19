@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service()
-class QuestionQueryRepositoryImpl implements QuestionQueryRepository{
+class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
     private QuestionRepository questionRepository;
 
     @Autowired()

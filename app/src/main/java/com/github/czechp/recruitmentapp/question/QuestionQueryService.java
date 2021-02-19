@@ -14,7 +14,7 @@ public class QuestionQueryService {
         this.questionQueryRepository = questionQueryRepository;
     }
 
-    public List<QuestionDto> findAll(){
+    public List<QuestionDto> findAll() {
         return questionQueryRepository.findAll();
     }
 }
