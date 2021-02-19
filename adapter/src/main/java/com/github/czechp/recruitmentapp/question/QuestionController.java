@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController()
@@ -11,28 +12,24 @@ import java.util.List;
 @CrossOrigin("*")
 class QuestionController {
     private final QuestionCommandService questionCommandService;
-    private final QuestionQueryRepository questionQueryRepository;
+    private final QuestionQueryService questionQueryService;
 
     @Autowired()
-    QuestionController(final QuestionCommandService questionCommandService, final QuestionQueryRepository questionQueryRepository) {
+    QuestionController(QuestionCommandService questionCommandService, QuestionQueryService questionQueryService) {
         this.questionCommandService = questionCommandService;
-        this.questionQueryRepository = questionQueryRepository;
+        this.questionQueryService = questionQueryService;
     }
 
-    //TODO: handle exceptions
 
-
-    //TODO: make it facade from this
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     List<QuestionDto> findAll(){
-        return questionQueryRepository.findAll();
+        return questionQueryService.findAll();
     }
 
-    //TODO: validate it
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    QuestionDto save(@RequestBody() Question question){
+    QuestionDto save(@RequestBody() @Valid final Question question){
         return questionCommandService.save(question);
     }
 
