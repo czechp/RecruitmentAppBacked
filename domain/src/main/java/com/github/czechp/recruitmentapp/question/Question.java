@@ -4,6 +4,8 @@ package com.github.czechp.recruitmentapp.question;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.PersistenceConstructor;
 
@@ -40,7 +42,23 @@ class Question {
                 ", confirmed=" + confirmed +
                 ", category=" + category +
                 '}';
+
     }
 
-    //TODO: equal and hashcode
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Question question = (Question) o;
+
+        return new EqualsBuilder().append(id, question.id).append(confirmed, question.confirmed).append(content, question.content).append(category, question.category).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).append(content).append(confirmed).append(category).toHashCode();
+    }
 }
