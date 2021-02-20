@@ -19,7 +19,18 @@ class QuestionCommandService {
         return toDto(questionCommandRepository.save(question));
     }
 
-    private QuestionDto toDto(final Question question) {
+    @Transactional()
+    public QuestionDto update(long questionId, Question question) {
+        Question result = questionCommandRepository.findById(questionId)
+                .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
+        result.setContent(question.getContent());
+        result.setCategory(question.getCategory());
+
+        return toDto(result);
+    }
+
+
+     static QuestionDto toDto(final Question question) {
         return new QuestionDto() {
             @Override
             public long getId() {
@@ -38,13 +49,4 @@ class QuestionCommandService {
         };
     }
 
-    @Transactional()
-    public QuestionDto update(long questionId, Question question) {
-        Question result = questionCommandRepository.findById(questionId)
-                .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
-        result.setContent(question.getContent());
-        result.setCategory(question.getCategory());
-
-        return toDto(result);
-    }
 }
