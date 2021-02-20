@@ -36,8 +36,8 @@ class QuestionControllerTest {
         //when
         when(questionRepository.findAllBy()).thenReturn(
                 Arrays.asList(
-                        QuestionCommandService.toDto(new Question("Some content 1", Category.PLC)),
-                        QuestionCommandService.toDto(new Question("Some content 2", Category.ELECTRIC))
+                        QuestionFactory.pojoToDto(new Question("Some content 1", Category.PLC)),
+                        QuestionFactory.pojoToDto(new Question("Some content 2", Category.ELECTRIC))
                 )
         );
         //then

@@ -16,7 +16,7 @@ class QuestionCommandService {
     }
 
     QuestionDto save(Question question) {
-        return toDto(questionCommandRepository.save(question));
+        return QuestionFactory.pojoToDto(questionCommandRepository.save(question));
     }
 
     @Transactional()
@@ -26,27 +26,7 @@ class QuestionCommandService {
         result.setContent(question.getContent());
         result.setCategory(question.getCategory());
 
-        return toDto(result);
-    }
-
-
-     static QuestionDto toDto(final Question question) {
-        return new QuestionDto() {
-            @Override
-            public long getId() {
-                return question.getId();
-            }
-
-            @Override
-            public String getContent() {
-                return question.getContent();
-            }
-
-            @Override
-            public Category getCategory() {
-                return question.getCategory();
-            }
-        };
+        return QuestionFactory.pojoToDto(result);
     }
 
 }
