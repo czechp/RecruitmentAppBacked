@@ -1,7 +1,11 @@
 package com.github.czechp.recruitmentapp.question;
 
+import com.github.czechp.recruitmentapp.question.dto.AnswerQueryDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class QuestionFactory {
 
@@ -28,6 +32,11 @@ public class QuestionFactory {
             @Override
             public Category getCategory() {
                 return question.getCategory();
+            }
+
+            @Override
+            public Set<AnswerQueryDto> getAnswers() {
+                return new HashSet<>();
             }
         };
     }

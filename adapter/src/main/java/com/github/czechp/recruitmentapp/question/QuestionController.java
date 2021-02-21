@@ -39,7 +39,7 @@ class QuestionController {
     @PutMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)
     void update(@RequestBody() @Valid() final QuestionCommandDto questionCommandDto, @PathVariable(name = "questionId") final long questionId) {
-         questionCommandService.update(questionId, questionCommandDto);
+        questionCommandService.update(questionId, questionCommandDto);
     }
 
 

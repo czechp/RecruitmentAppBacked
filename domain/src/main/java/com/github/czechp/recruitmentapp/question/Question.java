@@ -12,6 +12,9 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity()
 @Table(name = "questions")
@@ -32,6 +35,10 @@ class Question {
     @NotNull(message = "Category cannot be null")
     private Category category;
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Answer> answers = new HashSet<>();
+
+
     @PersistenceConstructor()
     Question() {
     }
@@ -39,6 +46,18 @@ class Question {
     Question(@NotBlank(message = "Question content cannot be blank") @Length(min = 10, max = 1000, message = "Question has to got min. 5 and max. 1000 characters") final String content, final Category category) {
         this.content = content;
         this.category = category;
+    }
+
+
+    public Set<Answer> getAnswers() {
+        return Collections.unmodifiableSet(answers);
+    }
+
+    void addAnswer(Answer answer) {
+        if (answers.size() < 4) {
+            this.answers.add(answer);
+            answer.setQuestion(this);
+        }
     }
 
     @Override
