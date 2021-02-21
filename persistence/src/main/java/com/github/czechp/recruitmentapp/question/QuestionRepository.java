@@ -1,6 +1,8 @@
 package com.github.czechp.recruitmentapp.question;
 
 
+import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
+import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.Optional;
 interface QuestionRepository extends Repository<Question, Long> {
     Question save(Question question);
 
-    List<QuestionDto> findAllBy();
+    List<QuestionQueryDto> findAllBy();
 
     Optional<Question> findById(long questionId);
 

@@ -3,6 +3,7 @@ package com.github.czechp.recruitmentapp.question;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.czechp.recruitmentapp.RecruitmentAppApplication;
+import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,8 +43,8 @@ class QuestionControllerTest {
         //when
         when(questionRepository.findAllBy()).thenReturn(
                 Arrays.asList(
-                        QuestionFactory.poJoToDto(new Question("Some content 1", Category.PLC)),
-                        QuestionFactory.poJoToDto(new Question("Some content 2", Category.ELECTRIC))
+                        QuestionFactory.poJoToQueryDto(new Question("Some content 1", Category.PLC)),
+                        QuestionFactory.poJoToQueryDto(new Question("Some content 2", Category.ELECTRIC))
                 )
         );
         //then
@@ -57,7 +58,7 @@ class QuestionControllerTest {
     @Test()
     void update() throws Exception {
         //given
-        QuestionDto requestBody = new QuestionDto(1L, "Question testing content", Category.ELECTRIC);
+        QuestionCommandDto requestBody = new QuestionCommandDto(1L, "Question testing content", Category.ELECTRIC);
         String requestJsonBody = toJson(requestBody);
         long questionId = 1L;
         //when
@@ -76,7 +77,7 @@ class QuestionControllerTest {
     @Test()
     void updateTest_entityNotFound() throws Exception {
         //given
-        QuestionDto requestBody = new QuestionDto(1L, "Question testing content", Category.ELECTRIC);
+        QuestionCommandDto requestBody = new QuestionCommandDto(1L, "Question testing content", Category.ELECTRIC);
         String requestJsonBody = toJson(requestBody);
         long questionId = 1L;
         //when

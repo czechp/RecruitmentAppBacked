@@ -1,5 +1,7 @@
 package com.github.czechp.recruitmentapp.question;
 
+import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
+import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,20 +25,21 @@ class QuestionController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    List<QuestionDto> findAll() {
+    List<QuestionQueryDto> findAll() {
         return questionQueryService.findAll();
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    QuestionDto save(@RequestBody() @Valid final QuestionDto question) {
-        return questionCommandService.save(question);
+    void save(@RequestBody() @Valid final QuestionCommandDto question) {
+        questionCommandService.save(question);
     }
+
 
     @PutMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)
-    QuestionDto update(@RequestBody() @Valid() final Question question, @PathVariable(name = "questionId") final long questionId) {
-        return questionCommandService.update(questionId, question);
+    void update(@RequestBody() @Valid() final QuestionCommandDto questionCommandDto, @PathVariable(name = "questionId") final long questionId) {
+         questionCommandService.update(questionId, questionCommandDto);
     }
 
 

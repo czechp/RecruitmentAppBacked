@@ -1,5 +1,6 @@
 package com.github.czechp.recruitmentapp.question;
 
+import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
@@ -20,9 +21,9 @@ class QuestionWarmup {
 
     @EventListener(ApplicationReadyEvent.class)
     void init() {
-        QuestionDto question1 = new QuestionDto(0L, "First question", Category.PLC);
-        QuestionDto question2 = new QuestionDto(0L, "Second question", Category.ELECTRIC);
-        QuestionDto question3 = new QuestionDto(0L, "Third question", Category.SCHEMATIC);
+        QuestionCommandDto question1 = new QuestionCommandDto(0L, "First question", Category.PLC);
+        QuestionCommandDto question2 = new QuestionCommandDto(0L, "Second question", Category.ELECTRIC);
+        QuestionCommandDto question3 = new QuestionCommandDto(0L, "Third question", Category.SCHEMATIC);
 
         Arrays.asList(
                 question1,
