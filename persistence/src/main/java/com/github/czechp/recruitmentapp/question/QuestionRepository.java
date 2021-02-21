@@ -13,4 +13,8 @@ interface QuestionRepository extends Repository<Question, Long> {
     List<QuestionDto> findAllBy();
 
     Optional<Question> findById(long questionId);
+
+    void deleteById(long questionId);
+
+    boolean existsById(long questionId);
 }

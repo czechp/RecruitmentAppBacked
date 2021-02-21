@@ -20,9 +20,9 @@ class QuestionWarmup {
 
     @EventListener(ApplicationReadyEvent.class)
     void init() {
-        Question question1 = new Question("First question", Category.PLC);
-        Question question2 = new Question("Second question", Category.ELECTRIC);
-        Question question3 = new Question("Third question", Category.SCHEMATIC);
+        QuestionDto question1 = new QuestionDto(0L, "First question", Category.PLC);
+        QuestionDto question2 = new QuestionDto(0L, "Second question", Category.ELECTRIC);
+        QuestionDto question3 = new QuestionDto(0L, "Third question", Category.SCHEMATIC);
 
         Arrays.asList(
                 question1,

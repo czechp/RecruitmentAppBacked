@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.czechp.recruitmentapp.RecruitmentAppApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,9 +13,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Optional;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,6 +52,71 @@ class QuestionControllerTest {
                 .andExpect(jsonPath("$[0].content").value("Some content 1"))
                 .andExpect(jsonPath("$[0].category").value("PLC"))
                 .andExpect(status().isOk());
+    }
+
+    @Test()
+    void update() throws Exception {
+        //given
+        QuestionDto requestBody = new QuestionDto(1L, "Question testing content", Category.ELECTRIC);
+        String requestJsonBody = toJson(requestBody);
+        long questionId = 1L;
+        //when
+        when(questionRepository.save(any())).thenReturn(new Question("Question testing content", Category.ELECTRIC));
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(new Question("Question testing content", Category.ELECTRIC)));
+
+        //then
+        mockMvc.perform(
+                put(URL + "/{questionId}", questionId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJsonBody)
+        )
+                .andExpect(status().isOk());
+    }
+
+    @Test()
+    void updateTest_entityNotFound() throws Exception {
+        //given
+        QuestionDto requestBody = new QuestionDto(1L, "Question testing content", Category.ELECTRIC);
+        String requestJsonBody = toJson(requestBody);
+        long questionId = 1L;
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+
+        //then
+        mockMvc.perform(
+                put(URL + "/{questionId}", questionId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJsonBody)
+        )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test()
+    void deleteTest() throws Exception {
+        //given
+        long questionId = 1L;
+        //when
+        when(questionRepository.existsById(anyLong())).thenReturn(true);
+        //then
+        mockMvc.perform(
+                delete(URL + "/{questionId}", questionId)
+        )
+        .andExpect(status().isNoContent());
+        verify(questionRepository, times(1)).deleteById(anyLong());
+    }
+
+
+    @Test()
+    void deleteTest_entityNotFound() throws Exception {
+        //given
+        long questionId = 1L;
+        //when
+        when(questionRepository.existsById(anyLong())).thenReturn(false);
+        //then
+        mockMvc.perform(
+                delete(URL + "/{questionId}", questionId)
+        )
+                .andExpect(status().isNotFound());
     }
 
     private String toJson(Object obj) throws JsonProcessingException {

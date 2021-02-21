@@ -29,7 +29,7 @@ class QuestionController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    QuestionDto save(@RequestBody() @Valid final Question question) {
+    QuestionDto save(@RequestBody() @Valid final QuestionDto question) {
         return questionCommandService.save(question);
     }
 
@@ -37,6 +37,13 @@ class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     QuestionDto update(@RequestBody() @Valid() final Question question, @PathVariable(name = "questionId") final long questionId) {
         return questionCommandService.update(questionId, question);
+    }
+
+
+    @DeleteMapping("/{questionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void delete(@PathVariable(name = "questionId") final long questionId) {
+        questionCommandService.deleteById(questionId);
     }
 
 }

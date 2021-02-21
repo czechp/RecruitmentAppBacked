@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter()
 @Setter()
-public class QuestionDto{
+public class QuestionDto {
     private long id;
 
     @NotBlank(message = "Question content cannot be blank")

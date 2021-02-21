@@ -15,12 +15,14 @@ class QuestionCommandService {
         this.questionCommandRepository = questionCommandRepository;
     }
 
-    QuestionDto save(Question question) {
-        return QuestionFactory.poJoToDto(questionCommandRepository.save(question));
+    QuestionDto save(QuestionDto questionDto) {
+        return QuestionFactory.poJoToDto(
+                questionCommandRepository.save(QuestionFactory.dtoToPoJo(questionDto))
+        );
     }
 
     @Transactional()
-    public QuestionDto update(long questionId, Question question) {
+    public QuestionDto update(final long questionId, final Question question) {
         Question result = questionCommandRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
         result.setContent(question.getContent());
@@ -29,4 +31,12 @@ class QuestionCommandService {
         return QuestionFactory.poJoToDto(result);
     }
 
+
+    void deleteById(final long questionId) {
+        if (questionCommandRepository.existsById(questionId)) {
+            questionCommandRepository.deleteById(questionId);
+        } else {
+            throw new EntityNotFoundException("Question id: " + questionId);
+        }
+    }
 }

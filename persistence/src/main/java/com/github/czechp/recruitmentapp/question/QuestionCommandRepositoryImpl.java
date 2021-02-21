@@ -24,5 +24,13 @@ class QuestionCommandRepositoryImpl implements QuestionCommandRepository {
         return questionRepository.findById(questionId);
     }
 
+    @Override
+    public void deleteById(long questionId) {
+        questionRepository.deleteById(questionId);
+    }
 
+    @Override
+    public boolean existsById(long questionId) {
+        return questionRepository.existsById(questionId);
+    }
 }
