@@ -11,6 +11,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity()
 @Table(name = "questions")
@@ -28,6 +29,7 @@ class Question {
 
     private boolean confirmed;
 
+    @NotNull(message = "Category cannot be null")
     private Category category;
 
     @PersistenceConstructor()
