@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Getter()
 @Setter()
 public class QuestionCommandDto {
-    private long id;
 
     @NotBlank(message = "Question content cannot be blank")
     @Length(min = 5, max = 1000, message = "Question has to got min. 5 and max. 1000 characters")
@@ -20,8 +19,7 @@ public class QuestionCommandDto {
     @NotNull(message = "Category cannot be null")
     private Category category;
 
-    public QuestionCommandDto(long id, @NotBlank(message = "Question content cannot be blank") @Length(min = 5, max = 1000, message = "Question has to got min. 5 and max. 1000 characters") String content, @NotNull(message = "Category cannot be null") Category category) {
-        this.id = id;
+    public QuestionCommandDto( @NotBlank(message = "Question content cannot be blank") @Length(min = 5, max = 1000, message = "Question has to got min. 5 and max. 1000 characters") String content, @NotNull(message = "Category cannot be null") Category category) {
         this.content = content;
         this.category = category;
     }

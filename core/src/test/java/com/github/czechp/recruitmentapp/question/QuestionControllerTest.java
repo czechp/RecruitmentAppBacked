@@ -3,6 +3,7 @@ package com.github.czechp.recruitmentapp.question;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.czechp.recruitmentapp.RecruitmentAppApplication;
+import com.github.czechp.recruitmentapp.question.dto.AnswerCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ class QuestionControllerTest {
     @Test()
     void update() throws Exception {
         //given
-        QuestionCommandDto requestBody = new QuestionCommandDto(1L, "Question testing content", Category.ELECTRIC);
+        QuestionCommandDto requestBody = new QuestionCommandDto("Question testing content", Category.ELECTRIC);
         String requestJsonBody = toJson(requestBody);
         long questionId = 1L;
         //when
@@ -77,7 +78,7 @@ class QuestionControllerTest {
     @Test()
     void updateTest_entityNotFound() throws Exception {
         //given
-        QuestionCommandDto requestBody = new QuestionCommandDto(1L, "Question testing content", Category.ELECTRIC);
+        QuestionCommandDto requestBody = new QuestionCommandDto("Question testing content", Category.ELECTRIC);
         String requestJsonBody = toJson(requestBody);
         long questionId = 1L;
         //when
@@ -102,7 +103,7 @@ class QuestionControllerTest {
         mockMvc.perform(
                 delete(URL + "/{questionId}", questionId)
         )
-        .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent());
         verify(questionRepository, times(1)).deleteById(anyLong());
     }
 
@@ -118,6 +119,90 @@ class QuestionControllerTest {
                 delete(URL + "/{questionId}", questionId)
         )
                 .andExpect(status().isNotFound());
+    }
+
+    @Test()
+    void addAnswerTest() throws Exception {
+        //given
+        long questionId = 1L;
+        AnswerCommandDto requestBody = new AnswerCommandDto("Some answer", false);
+        String requestJsonBody = toJson(requestBody);
+        Question question = new Question("Some question", Category.PLC);
+        question.setId(questionId);
+        question.addAnswer(new Answer("Exp content", false));
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(question));
+        //then
+        mockMvc.perform(post(URL + "/{questionId}/answers", questionId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJsonBody)
+        )
+                .andExpect(status().isCreated());
+    }
+
+    @Test()
+    void addAnswerTest_MaxAnswersSize() throws Exception {
+        //given
+        long questionId = 1L;
+        AnswerCommandDto requestBody = new AnswerCommandDto("Some answer", false);
+        String requestJsonBody = toJson(requestBody);
+        Question question = new Question("Some question", Category.PLC);
+        question.setId(questionId);
+        question.addAnswer(new Answer("Exp content1", true));
+        question.addAnswer(new Answer("Exp content2", false));
+        question.addAnswer(new Answer("Exp content3", false));
+        question.addAnswer(new Answer("Exp content4", false));
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(question));
+        //then
+        mockMvc.perform(post(URL + "/{questionId}/answers", questionId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJsonBody)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Question gat maximum numbers of answers"));
+    }
+
+    @Test()
+    void addAnswerTest_CorrectAnswerAlreadyExists() throws Exception {
+        //given
+        long questionId = 1L;
+        AnswerCommandDto requestBody = new AnswerCommandDto("Some answer", true);
+        String requestJsonBody = toJson(requestBody);
+        Question question = new Question("Some question", Category.PLC);
+        question.setId(questionId);
+        question.addAnswer(new Answer("Exp content", true));
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(question));
+        //then
+        mockMvc.perform(post(URL + "/{questionId}/answers", questionId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJsonBody)
+        )
+                .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.message").value("Question got already correct answer"));
+    }
+
+    @Test()
+    void addAnswerTest_atLeastOneCorrectQuestion() throws Exception {
+        //given
+        long questionId = 1L;
+        AnswerCommandDto requestBody = new AnswerCommandDto("Some answer", false);
+        String requestJsonBody = toJson(requestBody);
+        Question question = new Question("Some question", Category.PLC);
+        question.setId(questionId);
+        question.addAnswer(new Answer("Exp content1", false));
+        question.addAnswer(new Answer("Exp content2", false));
+        question.addAnswer(new Answer("Exp content3", false));
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(question));
+        //then
+        mockMvc.perform(post(URL + "/{questionId}/answers", questionId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJsonBody)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("At least one answer gotta be correct"));
     }
 
     private String toJson(Object obj) throws JsonProcessingException {

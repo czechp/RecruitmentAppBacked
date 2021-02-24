@@ -1,5 +1,6 @@
 package com.github.czechp.recruitmentapp.question;
 
+import com.github.czechp.recruitmentapp.question.dto.AnswerCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,12 @@ class QuestionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable(name = "questionId") final long questionId) {
         questionCommandService.deleteById(questionId);
+    }
+
+    @PostMapping("/{questionId}/answers")
+    @ResponseStatus(HttpStatus.CREATED)
+    void addAnswer(@PathVariable(name = "questionId")final long questionId, @RequestBody() @Valid() AnswerCommandDto answerCommandDto){
+        questionCommandService.addAnswer(questionId, answerCommandDto);
     }
 
 }

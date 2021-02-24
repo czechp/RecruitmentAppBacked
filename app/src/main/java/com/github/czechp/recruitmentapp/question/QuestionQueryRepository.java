@@ -5,6 +5,6 @@ import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 
 import java.util.List;
 
-public interface QuestionQueryRepository {
+interface QuestionQueryRepository {
     List<QuestionQueryDto> findAll();
 }

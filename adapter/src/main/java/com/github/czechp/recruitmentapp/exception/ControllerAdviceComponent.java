@@ -15,6 +15,11 @@ class ControllerAdviceComponent {
         return buildExceptionResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({BadRequestException.class})
+    ResponseEntity badRequestExceptionHandler(Exception exception){
+        return buildExceptionResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     private ResponseEntity buildExceptionResponse(String message, HttpStatus httpStatus) {
         HashMap<String, String> responseBody = new HashMap<>();
         responseBody.put("timestamp", LocalDateTime.now().toString());
