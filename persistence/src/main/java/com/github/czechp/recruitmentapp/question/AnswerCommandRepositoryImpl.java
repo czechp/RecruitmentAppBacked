@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service()
-class AnswerCommandRepositoryImpl implements AnswerCommandRepository{
+class AnswerCommandRepositoryImpl implements AnswerCommandRepository {
     private final AnswerRepository answerRepository;
 
     @Autowired()

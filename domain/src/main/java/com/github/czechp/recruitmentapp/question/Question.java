@@ -87,7 +87,7 @@ class Question {
     }
 
     void removeAnswer(Answer answer) {
-        if(answers.contains(answer)){
+        if (answers.contains(answer)) {
             answers.remove(answer);
             answer.setQuestion(null);
         }

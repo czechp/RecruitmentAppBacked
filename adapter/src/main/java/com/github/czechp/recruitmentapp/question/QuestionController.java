@@ -52,7 +52,7 @@ class QuestionController {
 
     @PostMapping("/{questionId}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    void addAnswer(@PathVariable(name = "questionId")final long questionId, @RequestBody() @Valid() AnswerCommandDto answerCommandDto){
+    void addAnswer(@PathVariable(name = "questionId") final long questionId, @RequestBody() @Valid() AnswerCommandDto answerCommandDto) {
         questionCommandService.addAnswer(questionId, answerCommandDto);
     }
 
@@ -60,9 +60,9 @@ class QuestionController {
     @PatchMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)
     void confirmQuestion(
-            @RequestParam(name = "confirmation") final  boolean confirmation,
+            @RequestParam(name = "confirmation") final boolean confirmation,
             @PathVariable(name = "questionId") final long questionId
-    ){
+    ) {
         questionCommandService.confirmQuestion(questionId, confirmation);
     }
 
@@ -70,7 +70,7 @@ class QuestionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteAnswerById(
             @PathVariable(name = "answerId") final long answerId
-    ){
+    ) {
         questionCommandService.deleteAnswerById(answerId);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Service()
 class QuestionCommandService {
@@ -65,8 +64,7 @@ class QuestionCommandService {
     }
 
     @Transactional()
-    public void deleteAnswerById(final long answerId)
-    {
+    public void deleteAnswerById(final long answerId) {
         Answer answer = answerCommandRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("Answer id: " + answerId));
         answer.getQuestion().setConfirmed(false);
@@ -77,7 +75,7 @@ class QuestionCommandService {
     public void confirmQuestion(long questionId, boolean confirmation) {
         Question question = questionCommandRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
-        if(question.getAnswers().size() < 4)
+        if (question.getAnswers().size() < 4)
             throw new BadRequestException("Question has incomplete answers set");
 
         question.setConfirmed(confirmation);
