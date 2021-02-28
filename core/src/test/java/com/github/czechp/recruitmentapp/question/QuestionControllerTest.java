@@ -183,7 +183,7 @@ class QuestionControllerTest {
                 .content(requestJsonBody)
         )
                 .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.message").value("Question got already correct answer"));
+                .andExpect(jsonPath("$.message").value("Question got already correct answer"));
     }
 
     @Test()
@@ -212,7 +212,7 @@ class QuestionControllerTest {
     void deleteAnswerByIdTest() throws Exception {
         //given
         long answerId = 1L;
-        Answer answer= new Answer("Some content", true);
+        Answer answer = new Answer("Some content", true);
         answer.setQuestion(new Question("Some question content", Category.PLC));
         //when
         when(answerRepository.findById(anyLong())).thenReturn(Optional.of(answer));
@@ -230,6 +230,64 @@ class QuestionControllerTest {
         //then
         mockMvc.perform(delete(URL + "/answers/{answerId}", answerId))
                 .andExpect(status().isNotFound());
+    }
+
+
+    @Test()
+    void confirmQuestionTest() throws Exception {
+        //given
+        long questionId = 1L;
+        boolean confirmation = true;
+        Question question = new Question("Some content", Category.PLC);
+        Arrays.asList(
+                new Answer("Answer 1", true),
+                new Answer("Answer 2", false),
+                new Answer("Answer 3", false),
+                new Answer("Answer 4", false)
+        ).stream()
+                .forEach(answer -> question.addAnswer(answer));
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(question));
+        //then
+        mockMvc.perform(patch(URL + "/{questionId}", questionId)
+                .param("confirmation", "true"))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test()
+    void confirmQuestionTest_NotFound() throws Exception {
+        //given
+        long questionId = 1L;
+        boolean confirmation = true;
+
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+        //then
+        mockMvc.perform(patch(URL + "/{questionId}", questionId)
+                .param("confirmation", "true"))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test()
+    void confirmQuestionTest_IncompleteAnswers() throws Exception {
+        //given
+        long questionId = 1L;
+        boolean confirmation = true;
+        Question question = new Question("Some content", Category.PLC);
+        Arrays.asList(
+                new Answer("Answer 1", true),
+                new Answer("Answer 2", false),
+                new Answer("Answer 3", false)
+        ).stream()
+                .forEach(answer -> question.addAnswer(answer));
+        //when
+        when(questionRepository.findById(anyLong())).thenReturn(Optional.of(question));
+        //then
+        mockMvc.perform(patch(URL + "/{questionId}", questionId)
+                .param("confirmation", "true"))
+                .andExpect(status().isBadRequest());
     }
 
     private String toJson(Object obj) throws JsonProcessingException {

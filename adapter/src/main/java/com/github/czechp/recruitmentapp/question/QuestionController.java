@@ -56,6 +56,16 @@ class QuestionController {
         questionCommandService.addAnswer(questionId, answerCommandDto);
     }
 
+    //TODO: only for superuser @SECURE({"ROLE_SUPERUSER"})
+    @PatchMapping("/{questionId}")
+    @ResponseStatus(HttpStatus.OK)
+    void confirmQuestion(
+            @RequestParam(name = "confirmation") final  boolean confirmation,
+            @PathVariable(name = "questionId") final long questionId
+    ){
+        questionCommandService.confirmQuestion(questionId, confirmation);
+    }
+
     @DeleteMapping("/answers/{answerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteAnswerById(

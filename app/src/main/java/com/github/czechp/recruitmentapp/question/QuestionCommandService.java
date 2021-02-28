@@ -72,4 +72,14 @@ class QuestionCommandService {
         answer.getQuestion().setConfirmed(false);
         answer.getQuestion().removeAnswer(answer);
     }
+
+    @Transactional()
+    public void confirmQuestion(long questionId, boolean confirmation) {
+        Question question = questionCommandRepository.findById(questionId)
+                .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
+        if(question.getAnswers().size() < 4)
+            throw new BadRequestException("Question has incomplete answers set");
+
+        question.setConfirmed(confirmation);
+    }
 }
