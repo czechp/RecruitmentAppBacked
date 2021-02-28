@@ -30,8 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class QuestionControllerTest {
     private static final String URL = "/api/questions";
 
-    @MockBean
+    @MockBean()
     QuestionRepository questionRepository;
+
+    @MockBean()
+    AnswerRepository answerRepository;
 
     @Autowired()
     MockMvc mockMvc;
@@ -203,6 +206,30 @@ class QuestionControllerTest {
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("At least one answer gotta be correct"));
+    }
+
+    @Test()
+    void deleteAnswerByIdTest() throws Exception {
+        //given
+        long answerId = 1L;
+        Answer answer= new Answer("Some content", true);
+        answer.setQuestion(new Question("Some question content", Category.PLC));
+        //when
+        when(answerRepository.findById(anyLong())).thenReturn(Optional.of(answer));
+        //then
+        mockMvc.perform(delete(URL + "/answers/{answerId}", answerId))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test()
+    void deleteAnswerByIdTest_AnswerNotFound() throws Exception {
+        //given
+        long answerId = 1L;
+        //when
+        when(answerRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+        //then
+        mockMvc.perform(delete(URL + "/answers/{answerId}", answerId))
+                .andExpect(status().isNotFound());
     }
 
     private String toJson(Object obj) throws JsonProcessingException {
