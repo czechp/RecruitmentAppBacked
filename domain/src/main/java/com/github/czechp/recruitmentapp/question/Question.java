@@ -85,4 +85,11 @@ class Question {
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(id).append(content).append(confirmed).append(category).toHashCode();
     }
+
+    void removeAnswer(Answer answer) {
+        if(answers.contains(answer)){
+            answers.remove(answer);
+            answer.setQuestion(null);
+        }
+    }
 }

@@ -56,4 +56,11 @@ class QuestionController {
         questionCommandService.addAnswer(questionId, answerCommandDto);
     }
 
+    @DeleteMapping("/answers/{answerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteAnswerById(
+            @PathVariable(name = "answerId") final long answerId
+    ){
+        questionCommandService.deleteAnswerById(answerId);
+    }
 }

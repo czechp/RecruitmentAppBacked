@@ -9,14 +9,17 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Service()
 class QuestionCommandService {
     private final QuestionCommandRepository questionCommandRepository;
+    private final AnswerCommandRepository answerCommandRepository;
 
     @Autowired()
-    QuestionCommandService(QuestionCommandRepository questionCommandRepository) {
+    QuestionCommandService(QuestionCommandRepository questionCommandRepository, AnswerCommandRepository answerCommandRepository) {
         this.questionCommandRepository = questionCommandRepository;
+        this.answerCommandRepository = answerCommandRepository;
     }
 
     void save(QuestionCommandDto questionCommandDto) {
@@ -59,5 +62,14 @@ class QuestionCommandService {
 
         question.addAnswer(AnswerFactory.commandDtoToPojo(answerCommandDto));
 
+    }
+
+    @Transactional()
+    public void deleteAnswerById(final long answerId)
+    {
+        Answer answer = answerCommandRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("Answer id: " + answerId));
+        answer.getQuestion().setConfirmed(false);
+        answer.getQuestion().removeAnswer(answer);
     }
 }
