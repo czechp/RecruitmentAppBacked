@@ -6,8 +6,11 @@ import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController()
@@ -72,5 +75,20 @@ class QuestionController {
             @PathVariable(name = "answerId") final long answerId
     ) {
         questionCommandService.deleteAnswerById(answerId);
+    }
+
+    @PostMapping("/{questionId}/img")
+    @ResponseStatus(HttpStatus.OK)
+    void addImage(
+            @PathVariable(name = "questionId") final long questionId,
+            @RequestParam(name = "image") final MultipartFile multipartFile
+            ) throws IOException {
+        File file = new File(multipartFile.getOriginalFilename());
+        multipartFile.transferTo(file);
+        questionCommandService.addImage(
+                questionId,
+                multipartFile.getOriginalFilename(),
+                file
+        );
     }
 }

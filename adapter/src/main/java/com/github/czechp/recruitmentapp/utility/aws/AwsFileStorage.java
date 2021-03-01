@@ -10,6 +10,12 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Optional;
+
 @Service()
 public class AwsFileStorage implements FileStorage {
     final private AmazonS3 amazonS3Client;
@@ -31,6 +37,13 @@ public class AwsFileStorage implements FileStorage {
     @EventListener(ApplicationReadyEvent.class)
     void init() {
         createBucketIfNotExists();
+    }
+
+    @Override
+    public Optional<String> uploadFile(final long questionId, final String fileName, final File file) throws IOException {
+        String uploadedFileName = questionId + fileName.substring(fileName.lastIndexOf('.'));
+        Files.write(Paths.get(uploadedFileName), Files.readAllBytes(file.toPath()));
+        return Optional.of(uploadedFileName);
     }
 
     private void createBucketIfNotExists() {

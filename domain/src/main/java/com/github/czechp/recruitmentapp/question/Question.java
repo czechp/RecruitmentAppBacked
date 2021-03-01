@@ -32,6 +32,8 @@ class Question {
 
     private boolean confirmed;
 
+    private String imagePath;
+
     @NotNull(message = "Category cannot be null")
     private Category category;
 

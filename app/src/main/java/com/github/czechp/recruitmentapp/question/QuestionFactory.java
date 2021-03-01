@@ -35,6 +35,11 @@ public class QuestionFactory {
             }
 
             @Override
+            public String getImagePath() {
+                return question.getImagePath();
+            }
+
+            @Override
             public Set<AnswerQueryDto> getAnswers() {
                 return new HashSet<>();
             }

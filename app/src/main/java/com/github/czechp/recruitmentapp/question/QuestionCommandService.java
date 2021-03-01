@@ -4,21 +4,25 @@ import com.github.czechp.recruitmentapp.exception.BadRequestException;
 import com.github.czechp.recruitmentapp.exception.EntityNotFoundException;
 import com.github.czechp.recruitmentapp.question.dto.AnswerCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
+import com.github.czechp.recruitmentapp.utility.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.File;
 
 @Service()
 class QuestionCommandService {
     private final QuestionCommandRepository questionCommandRepository;
     private final AnswerCommandRepository answerCommandRepository;
+    private final FileStorage fileStorage;
 
     @Autowired()
-    QuestionCommandService(QuestionCommandRepository questionCommandRepository, AnswerCommandRepository answerCommandRepository) {
+    QuestionCommandService(QuestionCommandRepository questionCommandRepository, AnswerCommandRepository answerCommandRepository, final FileStorage fileStorage) {
         this.questionCommandRepository = questionCommandRepository;
         this.answerCommandRepository = answerCommandRepository;
+        this.fileStorage = fileStorage;
     }
 
     void save(QuestionCommandDto questionCommandDto) {
@@ -80,4 +84,14 @@ class QuestionCommandService {
 
         question.setConfirmed(confirmation);
     }
+
+
+    //TODO: return to this place
+    @Transactional()
+    public void addImage(final long questionId, final String fileName, final File file){
+        Question question = questionCommandRepository.findById(questionId)
+                .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
+        fileStorage.uploadFile(questionId, fileName, file);
+    }
+
 }
