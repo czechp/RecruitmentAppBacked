@@ -6,7 +6,10 @@ import java.util.Set;
 
 public interface QuestionQueryDto {
     long getId();
+
     String getContent();
+
     Category getCategory();
+
     Set<AnswerQueryDto> getAnswers();
 }

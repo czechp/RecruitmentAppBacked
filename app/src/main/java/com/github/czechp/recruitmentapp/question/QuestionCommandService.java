@@ -13,10 +13,12 @@ import javax.validation.Valid;
 @Service()
 class QuestionCommandService {
     private final QuestionCommandRepository questionCommandRepository;
+    private final AnswerCommandRepository answerCommandRepository;
 
     @Autowired()
-    QuestionCommandService(QuestionCommandRepository questionCommandRepository) {
+    QuestionCommandService(QuestionCommandRepository questionCommandRepository, AnswerCommandRepository answerCommandRepository) {
         this.questionCommandRepository = questionCommandRepository;
+        this.answerCommandRepository = answerCommandRepository;
     }
 
     void save(QuestionCommandDto questionCommandDto) {
@@ -59,5 +61,23 @@ class QuestionCommandService {
 
         question.addAnswer(AnswerFactory.commandDtoToPojo(answerCommandDto));
 
+    }
+
+    @Transactional()
+    public void deleteAnswerById(final long answerId) {
+        Answer answer = answerCommandRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("Answer id: " + answerId));
+        answer.getQuestion().setConfirmed(false);
+        answer.getQuestion().removeAnswer(answer);
+    }
+
+    @Transactional()
+    public void confirmQuestion(long questionId, boolean confirmation) {
+        Question question = questionCommandRepository.findById(questionId)
+                .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
+        if (question.getAnswers().size() < 4)
+            throw new BadRequestException("Question has incomplete answers set");
+
+        question.setConfirmed(confirmation);
     }
 }

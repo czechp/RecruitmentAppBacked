@@ -16,7 +16,7 @@ class ControllerAdviceComponent {
     }
 
     @ExceptionHandler({BadRequestException.class})
-    ResponseEntity badRequestExceptionHandler(Exception exception){
+    ResponseEntity badRequestExceptionHandler(Exception exception) {
         return buildExceptionResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
