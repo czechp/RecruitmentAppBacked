@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController()
@@ -82,13 +84,9 @@ class QuestionController {
     void addImage(
             @PathVariable(name = "questionId") final long questionId,
             @RequestParam(name = "image") final MultipartFile multipartFile
-            ) throws IOException {
+    ) throws IOException {
         File file = new File(multipartFile.getOriginalFilename());
-        multipartFile.transferTo(file);
-        questionCommandService.addImage(
-                questionId,
-                multipartFile.getOriginalFilename(),
-                file
-        );
+        multipartFile.transferTo(file.toPath());
+        questionCommandService.addImage(questionId, multipartFile.getOriginalFilename(), file);
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service()
 class QuestionCommandService {
@@ -86,12 +88,16 @@ class QuestionCommandService {
     }
 
 
-    //TODO: return to this place
+
     @Transactional()
-    public void addImage(final long questionId, final String fileName, final File file){
+    public void addImage(final long questionId, final String originalFilename, final File file) {
         Question question = questionCommandRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
-        fileStorage.uploadFile(questionId, fileName, file);
+        String fileName = question.getId() + originalFilename.substring(originalFilename.lastIndexOf('.'));
+        try {
+            fileStorage.uploadImage(fileName, file);
+        } catch (IOException e) {
+            throw new BadRequestException("Error during image processing");
+        }
     }
-
 }

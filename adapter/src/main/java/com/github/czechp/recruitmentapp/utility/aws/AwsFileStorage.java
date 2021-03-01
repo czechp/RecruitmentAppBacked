@@ -12,9 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
 
 @Service()
 public class AwsFileStorage implements FileStorage {
@@ -39,17 +36,18 @@ public class AwsFileStorage implements FileStorage {
         createBucketIfNotExists();
     }
 
-    @Override
-    public Optional<String> uploadFile(final long questionId, final String fileName, final File file) throws IOException {
-        String uploadedFileName = questionId + fileName.substring(fileName.lastIndexOf('.'));
-        Files.write(Paths.get(uploadedFileName), Files.readAllBytes(file.toPath()));
-        return Optional.of(uploadedFileName);
-    }
 
     private void createBucketIfNotExists() {
         if(!amazonS3Client.doesBucketExistV2(bucketName)){
             amazonS3Client.createBucket(bucketName);
             logger.info("Created bucket in Amazon AWS 3S cloud with name: {}", bucketName);
         }
+    }
+
+    @Override
+    public String uploadImage(String fileName, File file) throws IOException {
+        amazonS3Client.putObject(bucketName, fileName, file);
+
+        return null;
     }
 }
