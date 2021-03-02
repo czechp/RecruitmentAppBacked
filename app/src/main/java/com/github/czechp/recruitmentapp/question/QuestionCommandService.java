@@ -94,10 +94,6 @@ class QuestionCommandService {
         Question question = questionCommandRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
         String fileName = question.getId() + originalFilename.substring(originalFilename.lastIndexOf('.'));
-        try {
-            fileStorage.uploadImage(fileName, file);
-        } catch (IOException e) {
-            throw new BadRequestException("Error during image processing");
-        }
+
     }
 }

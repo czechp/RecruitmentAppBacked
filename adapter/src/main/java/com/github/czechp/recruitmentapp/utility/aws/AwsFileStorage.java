@@ -44,10 +44,4 @@ public class AwsFileStorage implements FileStorage {
         }
     }
 
-    @Override
-    public String uploadImage(String fileName, File file) throws IOException {
-        amazonS3Client.putObject(bucketName, fileName, file);
-
-        return null;
-    }
 }
