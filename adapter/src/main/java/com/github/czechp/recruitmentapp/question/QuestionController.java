@@ -1,5 +1,6 @@
 package com.github.czechp.recruitmentapp.question;
 
+import com.github.czechp.recruitmentapp.exception.BadRequestException;
 import com.github.czechp.recruitmentapp.question.dto.AnswerCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
@@ -9,10 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController()
@@ -84,9 +83,15 @@ class QuestionController {
     void addImage(
             @PathVariable(name = "questionId") final long questionId,
             @RequestParam(name = "image") final MultipartFile multipartFile
-    ) throws IOException {
-        File file = new File(multipartFile.getOriginalFilename());
-        multipartFile.transferTo(file.toPath());
-        questionCommandService.addImage(questionId, multipartFile.getOriginalFilename(), file);
+    ) {
+        HashMap<String, String> metadata = new HashMap<>();
+        metadata.put("extension", multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".")));
+        metadata.put("content-type", multipartFile.getContentType());
+        metadata.put("content-length", String.valueOf(multipartFile.getSize()));
+        try {
+            questionCommandService.addImage(questionId, metadata, multipartFile.getBytes());
+        } catch (IOException e) {
+            throw new BadRequestException("Error during processing file");
+        }
     }
 }

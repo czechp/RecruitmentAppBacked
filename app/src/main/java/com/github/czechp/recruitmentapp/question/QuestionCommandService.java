@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 @Service()
 class QuestionCommandService {
@@ -90,10 +91,10 @@ class QuestionCommandService {
 
 
     @Transactional()
-    public void addImage(final long questionId, final String originalFilename, final File file) {
+    public void addImage(final long questionId, final HashMap<String, String> metadata, final byte[] fileBytes) {
         Question question = questionCommandRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("Question id: " + questionId));
-        String fileName = question.getId() + originalFilename.substring(originalFilename.lastIndexOf('.'));
-
+        String fileName = question.getId() + metadata.get("extension");
+        question.addImage(new Image(fileName, fileStorage.updateFile(fileName, metadata, fileBytes)));
     }
 }
