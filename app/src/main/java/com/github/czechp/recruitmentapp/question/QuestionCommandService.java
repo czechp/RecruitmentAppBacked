@@ -89,7 +89,7 @@ class QuestionCommandService {
     }
 
 
-
+    //TODO: test it
     @Transactional()
     public void addImage(final long questionId, final HashMap<String, String> metadata, final byte[] fileBytes) {
         Question question = questionCommandRepository.findById(questionId)
