@@ -37,6 +37,10 @@ class QuestionWarmup {
         ).stream()
                 .forEach(answer -> question1.addAnswer(answer));
 
+        Image image = new Image("test.jpg", "google.com");
+
+        question1.addImage(image);
+
         Arrays.asList(
                 question1,
                 question2,

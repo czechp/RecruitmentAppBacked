@@ -10,6 +10,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity()
 @Table(name = "images")
@@ -27,6 +28,10 @@ class Image {
     @NotBlank(message = "URL address cannot be empty")
     @Length(min = 5, max = 100, message = "File name has to have between 5 and 100 characters")
     private String url;
+
+    @NotNull(message = "Question cannot be null")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Question question;
 
     @PersistenceConstructor()
     Image() {

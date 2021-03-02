@@ -1,6 +1,7 @@
 package com.github.czechp.recruitmentapp.question;
 
 import com.github.czechp.recruitmentapp.question.dto.AnswerQueryDto;
+import com.github.czechp.recruitmentapp.question.dto.ImageQueryDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 
@@ -35,8 +36,23 @@ public class QuestionFactory {
             }
 
             @Override
-            public String getImagePath() {
-                return question.getImagePath();
+            public ImageQueryDto getImage() {
+                return new ImageQueryDto() {
+                    @Override
+                    public long getId() {
+                        return question.getImage().getId();
+                    }
+
+                    @Override
+                    public String getFileName() {
+                        return question.getImage().getFileName();
+                    }
+
+                    @Override
+                    public String getUrl() {
+                        return question.getImage().getUrl();
+                    }
+                };
             }
 
             @Override

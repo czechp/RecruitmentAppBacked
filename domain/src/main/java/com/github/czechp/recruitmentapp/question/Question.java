@@ -32,14 +32,14 @@ class Question {
 
     private boolean confirmed;
 
-    private String imagePath;
-
     @NotNull(message = "Category cannot be null")
     private Category category;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Answer> answers = new HashSet<>();
 
+    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Image image;
 
     @PersistenceConstructor()
     Question() {
@@ -93,5 +93,10 @@ class Question {
             answers.remove(answer);
             answer.setQuestion(null);
         }
+    }
+
+    void addImage(final Image image) {
+        this.image = image;
+        image.setQuestion(this);
     }
 }

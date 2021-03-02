@@ -11,7 +11,7 @@ public interface QuestionQueryDto {
 
     Category getCategory();
 
-    String getImagePath();
+    ImageQueryDto getImage();
 
     Set<AnswerQueryDto> getAnswers();
 }
