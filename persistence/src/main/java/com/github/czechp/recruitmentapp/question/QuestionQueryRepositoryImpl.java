@@ -4,6 +4,7 @@ import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service()
@@ -18,5 +19,18 @@ class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
     @Override
     public List<QuestionQueryDto> findAll() {
         return questionRepository.findAllBy();
+    }
+
+    @Override
+    public long countByCategoryAndConfirmed(final Category category, final boolean confirmed) {
+        return questionRepository.countByCategoryAndConfirmed(category, confirmed);
+    }
+
+
+    //TODO: ERROR HERE WITH PROJECTIONS
+    @Override
+    public List<QuestionQueryDto> findByCategoryWithLimit(final Category category, final int minQuestionAmount) {
+        questionRepository.findByCategoryWithLimit(category.toString());
+        return null;
     }
 }

@@ -29,19 +29,17 @@ class QuestionWarmup {
         Answer answer3 = new Answer("Answer 3", false);
         Answer answer4 = new Answer("Answer 4", false);
 
-        Arrays.asList(
-                answer1,
-                answer2,
-                answer3,
-                answer4
-        ).stream()
-                .forEach(answer -> question1.addAnswer(answer));
-
-        Arrays.asList(
-                question1,
-                question2,
-                question3
-        ).stream()
-                .forEach(question -> questionRepository.save(question));
+        Arrays.asList(question1, question2, question3)
+                .stream()
+                .forEach(question -> {
+                    for (int i = 0; i < 4; i++) {
+                        Answer answer = new Answer("0000" + i, false);
+                        if (i == 3)
+                            answer.setCorrect(true);
+                        question.addAnswer(answer);
+                    }
+                    question.setConfirmed(true);
+                    questionRepository.save(question);
+                });
     }
 }

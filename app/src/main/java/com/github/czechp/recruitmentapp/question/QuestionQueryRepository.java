@@ -6,4 +6,8 @@ import java.util.List;
 
 interface QuestionQueryRepository {
     List<QuestionQueryDto> findAll();
+
+    long countByCategoryAndConfirmed(final Category category, final boolean confirmed);
+
+    List<QuestionQueryDto> findByCategoryWithLimit(Category category, int minQuestionAmount);
 }

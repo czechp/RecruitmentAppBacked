@@ -33,6 +33,7 @@ class Question {
     private boolean confirmed;
 
     @NotNull(message = "Category cannot be null")
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

@@ -4,6 +4,7 @@ import com.github.czechp.recruitmentapp.question.dto.AnswerCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,5 +73,13 @@ class QuestionController {
             @PathVariable(name = "answerId") final long answerId
     ) {
         questionCommandService.deleteAnswerById(answerId);
+    }
+
+    @GetMapping("/tests")
+    @ResponseStatus(HttpStatus.OK)
+    List<QuestionQueryDto> getQuestionForTest(
+            @RequestParam(name = "candidate")String candidate
+    ){
+        return questionQueryService.getQuestionForTest(candidate);
     }
 }
