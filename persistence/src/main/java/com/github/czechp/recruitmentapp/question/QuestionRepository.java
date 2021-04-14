@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @org.springframework.stereotype.Repository()
 interface QuestionRepository extends Repository<Question, Long> {
@@ -23,6 +24,6 @@ interface QuestionRepository extends Repository<Question, Long> {
 
     long countByCategoryAndConfirmed(final Category category, final boolean confirmed);
 
-    @Query(value = "SELECT * FROM questions WHERE category = :category ", nativeQuery = true)
-    List<Question> findByCategoryWithLimit(@Param("category") String category);
+    @Query(value = "SELECT q FROM Question q WHERE category =:category")
+    Set<QuestionQueryDto> findByCategoryWithLimit(@Param("category") Category category);
 }

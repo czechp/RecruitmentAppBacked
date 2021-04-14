@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController()
 @RequestMapping("/api/questions")
@@ -77,7 +78,7 @@ class QuestionController {
 
     @GetMapping("/tests")
     @ResponseStatus(HttpStatus.OK)
-    List<QuestionQueryDto> getQuestionForTest(
+    Set<QuestionQueryDto> getQuestionForTest(
             @RequestParam(name = "candidate")String candidate
     ){
         return questionQueryService.getQuestionForTest(candidate);

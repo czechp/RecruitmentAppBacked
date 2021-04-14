@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service()
 public class QuestionQueryService {
-    private static final int MIN_QUESTION_AMOUNT = 1;
+    private static final int MIN_QUESTION_AMOUNT = 3;
     private final QuestionQueryRepository questionQueryRepository;
 
     @Autowired()
@@ -22,8 +24,8 @@ public class QuestionQueryService {
         return questionQueryRepository.findAll();
     }
 
-    List<QuestionQueryDto> getQuestionForTest(final String candidate) {
-        List<QuestionQueryDto> questions = new ArrayList<>();
+    Set<QuestionQueryDto> getQuestionForTest(final String candidate) {
+        Set<QuestionQueryDto> questions = new HashSet<>();
         switch (candidate.toUpperCase()) {
             case "ELECTRIC":
                 questions = getQuestionForCategory(Category.ELECTRIC);
@@ -32,7 +34,7 @@ public class QuestionQueryService {
         return questions;
     }
 
-    private List<QuestionQueryDto> getQuestionForCategory(final Category category) {
+    private Set<QuestionQueryDto> getQuestionForCategory(final Category category) {
         long questionAmount = questionQueryRepository.countByCategoryAndConfirmed(category, true);
         if (questionAmount >= MIN_QUESTION_AMOUNT)
             return questionQueryRepository.findByCategoryWithLimit(category, MIN_QUESTION_AMOUNT);

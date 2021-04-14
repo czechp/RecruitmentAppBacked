@@ -21,8 +21,8 @@ class QuestionWarmup {
     @EventListener(ApplicationReadyEvent.class)
     void init() {
         Question question1 = new Question("Question 1", Category.ELECTRIC);
-        Question question2 = new Question("Question 2", Category.PLC);
-        Question question3 = new Question("Question 3", Category.SCHEMATIC);
+        Question question2 = new Question("Question 2", Category.ELECTRIC);
+        Question question3 = new Question("Question 3", Category.ELECTRIC);
 
         Answer answer1 = new Answer("Answer 1", false);
         Answer answer2 = new Answer("Answer 2", true);

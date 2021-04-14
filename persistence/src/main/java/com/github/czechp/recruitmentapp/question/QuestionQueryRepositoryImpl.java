@@ -4,8 +4,9 @@ import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service()
 class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
@@ -29,8 +30,10 @@ class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
 
     //TODO: ERROR HERE WITH PROJECTIONS
     @Override
-    public List<QuestionQueryDto> findByCategoryWithLimit(final Category category, final int minQuestionAmount) {
-        questionRepository.findByCategoryWithLimit(category.toString());
-        return null;
+    public Set<QuestionQueryDto> findByCategoryWithLimit(final Category category, final int minQuestionAmount) {
+        return questionRepository.findByCategoryWithLimit(category).stream()
+                .limit(minQuestionAmount)
+                .collect(Collectors.toSet());
+
     }
 }
