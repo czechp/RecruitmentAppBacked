@@ -3,6 +3,8 @@ package com.github.czechp.recruitmentapp.user;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,6 +51,15 @@ class AppUser implements UserDetails {
     @PersistenceConstructor()
     AppUser() {
         this.verificationToken = UUID.randomUUID().toString();
+        this.role = AppUserRole.USER;
+    }
+
+    public AppUser(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.verificationToken = UUID.randomUUID().toString();
+        this.role = AppUserRole.USER;
     }
 
     @Override
@@ -83,8 +94,34 @@ class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.enabled;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AppUser appUser = (AppUser) o;
+
+        return new EqualsBuilder().append(id, appUser.id).append(enabled, appUser.enabled).append(username, appUser.username).append(password, appUser.password).append(email, appUser.email).append(verificationToken, appUser.verificationToken).append(role, appUser.role).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).append(username).append(password).append(email).append(verificationToken).append(enabled).append(role).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", enabled=" + enabled +
+                ", role=" + role +
+                '}';
+    }
 }

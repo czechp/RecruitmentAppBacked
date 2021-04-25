@@ -1,2 +1,4 @@
-package com.github.czechp.recruitmentapp.user;public interface AppUserCommandRepository {
+package com.github.czechp.recruitmentapp.user;
+
+public interface AppUserCommandRepository {
 }
