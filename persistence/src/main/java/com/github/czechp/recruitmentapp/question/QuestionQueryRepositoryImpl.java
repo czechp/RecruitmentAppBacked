@@ -28,7 +28,6 @@ class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
     }
 
 
-    //TODO: ERROR HERE WITH PROJECTIONS
     @Override
     public Set<QuestionQueryDto> findByCategoryWithLimit(final Category category, final int minQuestionAmount) {
         return questionRepository.findByCategoryWithLimit(category).stream()

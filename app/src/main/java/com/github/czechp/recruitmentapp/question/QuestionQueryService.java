@@ -24,6 +24,7 @@ public class QuestionQueryService {
         return questionQueryRepository.findAll();
     }
 
+    //TODO: end when test controller will be ready
     Set<QuestionQueryDto> getQuestionForTest(final String candidate) {
         Set<QuestionQueryDto> questions = new HashSet<>();
         switch (candidate.toUpperCase()) {
