@@ -76,11 +76,4 @@ class QuestionController {
         questionCommandService.deleteAnswerById(answerId);
     }
 
-    @GetMapping("/tests")
-    @ResponseStatus(HttpStatus.OK)
-    Set<QuestionQueryDto> getQuestionForTest(
-            @RequestParam(name = "candidate")String candidate
-    ){
-        return questionQueryService.getQuestionForTest(candidate);
-    }
 }
