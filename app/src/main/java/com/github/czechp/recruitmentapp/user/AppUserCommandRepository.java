@@ -1,4 +1,5 @@
 package com.github.czechp.recruitmentapp.user;
 
-public interface AppUserCommandRepository {
+interface AppUserCommandRepository {
+    AppUser save(AppUser appUser);
 }
