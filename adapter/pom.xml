@@ -11,12 +11,18 @@
 
     <artifactId>adapter</artifactId>
     <name>adapter</name>
-
     <dependencies>
         <dependency>
             <groupId>com.github.czechp</groupId>
             <artifactId>app</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
         </dependency>
 
         <dependency>

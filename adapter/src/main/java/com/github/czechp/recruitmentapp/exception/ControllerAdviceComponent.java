@@ -20,6 +20,11 @@ class ControllerAdviceComponent {
         return buildExceptionResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({UnauthorizedException.class})
+    ResponseEntity unauthorizedExceptionHandler(Exception exception){
+        return buildExceptionResponse(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
     private ResponseEntity buildExceptionResponse(String message, HttpStatus httpStatus) {
         HashMap<String, String> responseBody = new HashMap<>();
         responseBody.put("timestamp", LocalDateTime.now().toString());
