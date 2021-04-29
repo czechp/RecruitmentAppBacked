@@ -6,6 +6,7 @@ import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,7 +59,7 @@ class QuestionController {
         questionCommandService.addAnswer(questionId, answerCommandDto);
     }
 
-    //TODO: only for superuser @SECURE({"ROLE_SUPERUSER"})
+    @Secured({"ROLE_SUPERUSER", "ROLE_ADMIN"})
     @PatchMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)
     void confirmQuestion(

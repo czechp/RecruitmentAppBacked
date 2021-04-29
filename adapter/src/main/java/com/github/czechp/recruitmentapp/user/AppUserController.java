@@ -1,7 +1,7 @@
 package com.github.czechp.recruitmentapp.user;
 
 import com.github.czechp.recruitmentapp.user.dto.AppUserLoginDto;
-import com.github.czechp.recruitmentapp.utility.security.JwtTokenService;
+import com.github.czechp.recruitmentapp.utility.security.JwtAuthorizationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,11 +16,11 @@ import javax.validation.Valid;
 @CrossOrigin("*")
 class AppUserController {
     private final AppUserQueryService appUserQueryService;
-    private final JwtTokenService jwtTokenService;
+    private final JwtAuthorizationTokenService jwtTokenService;
     private final AuthenticationManager authenticationManager;
 
     @Autowired()
-    AppUserController(final AppUserQueryService appUserQueryService, final JwtTokenService jwtTokenService, final AuthenticationManager authenticationManager) {
+    AppUserController(final AppUserQueryService appUserQueryService, final JwtAuthorizationTokenService jwtTokenService, final AuthenticationManager authenticationManager) {
         this.appUserQueryService = appUserQueryService;
         this.jwtTokenService = jwtTokenService;
         this.authenticationManager = authenticationManager;

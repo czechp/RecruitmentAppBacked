@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service()
-public class JwtTokenService {
+public class JwtAuthorizationTokenService {
     //TODO: MAKE IT AS ENVIRONMENT VARIABLE
     private static final String SECRET_KEY = "1234567890";
     private static final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;

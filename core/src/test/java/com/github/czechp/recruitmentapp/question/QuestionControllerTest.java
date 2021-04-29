@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -42,6 +43,7 @@ class QuestionControllerTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void findAll() throws Exception {
         //given
         //when
@@ -60,6 +62,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void update() throws Exception {
         //given
         QuestionCommandDto requestBody = new QuestionCommandDto("Question testing content", Category.ELECTRIC);
@@ -79,6 +82,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void updateTest_entityNotFound() throws Exception {
         //given
         QuestionCommandDto requestBody = new QuestionCommandDto("Question testing content", Category.ELECTRIC);
@@ -97,6 +101,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void deleteTest() throws Exception {
         //given
         long questionId = 1L;
@@ -112,6 +117,7 @@ class QuestionControllerTest {
 
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void deleteTest_entityNotFound() throws Exception {
         //given
         long questionId = 1L;
@@ -125,6 +131,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void addAnswerTest() throws Exception {
         //given
         long questionId = 1L;
@@ -144,6 +151,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void addAnswerTest_MaxAnswersSize() throws Exception {
         //given
         long questionId = 1L;
@@ -167,6 +175,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void addAnswerTest_CorrectAnswerAlreadyExists() throws Exception {
         //given
         long questionId = 1L;
@@ -187,6 +196,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void addAnswerTest_atLeastOneCorrectQuestion() throws Exception {
         //given
         long questionId = 1L;
@@ -209,6 +219,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void deleteAnswerByIdTest() throws Exception {
         //given
         long answerId = 1L;
@@ -222,6 +233,7 @@ class QuestionControllerTest {
     }
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void deleteAnswerByIdTest_AnswerNotFound() throws Exception {
         //given
         long answerId = 1L;
@@ -234,6 +246,7 @@ class QuestionControllerTest {
 
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = {"SUPERUSER", "ADMIN"})
     void confirmQuestionTest() throws Exception {
         //given
         long questionId = 1L;
@@ -256,6 +269,7 @@ class QuestionControllerTest {
 
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void confirmQuestionTest_NotFound() throws Exception {
         //given
         long questionId = 1L;
@@ -271,6 +285,7 @@ class QuestionControllerTest {
 
 
     @Test()
+    @WithMockUser(username = "user123", password = "user123", roles = "USER")
     void confirmQuestionTest_IncompleteAnswers() throws Exception {
         //given
         long questionId = 1L;
