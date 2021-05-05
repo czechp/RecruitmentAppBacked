@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration()
 @EnableGlobalMethodSecurity(
@@ -19,10 +20,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
         jsr250Enabled = true)
 class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AppUserQueryService appUserQueryService;
+    private final AuthorizationFilter authorizationFilter;
 
     @Autowired()
-    SecurityConfiguration(final AppUserQueryService appUserQueryService) {
+    SecurityConfiguration(final AppUserQueryService appUserQueryService, final AuthorizationFilter authorizationFilter) {
         this.appUserQueryService = appUserQueryService;
+        this.authorizationFilter = authorizationFilter;
     }
 
     @Override
@@ -38,7 +41,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
-                .httpBasic();
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean()

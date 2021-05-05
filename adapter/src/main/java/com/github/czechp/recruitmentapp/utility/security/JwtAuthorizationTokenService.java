@@ -1,5 +1,7 @@
 package com.github.czechp.recruitmentapp.utility.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
@@ -25,4 +27,12 @@ public class JwtAuthorizationTokenService {
                 .compact();
     }
 
+    public Jws<Claims> decodeToken(final String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token);
+
+
+
+    }
 }
