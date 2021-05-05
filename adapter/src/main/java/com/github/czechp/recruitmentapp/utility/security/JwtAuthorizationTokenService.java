@@ -15,11 +15,12 @@ public class JwtAuthorizationTokenService {
     private static final int EXPIRATION_MINUTES = 10;
 
     //TODO: return here and check SECRET KEY
-    public String generateToken(String username){
+    public String generateToken(String username, final String requestAddress) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRATION_MINUTES))
+                .claim("address", requestAddress)
                 .signWith(ALGORITHM, TextCodec.BASE64.decode(SECRET_KEY))
                 .compact();
     }

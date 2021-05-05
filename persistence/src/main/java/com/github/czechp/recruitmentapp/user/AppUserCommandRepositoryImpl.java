@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service()
-class AppUserCommandRepositoryImpl implements AppUserCommandRepository{
+class AppUserCommandRepositoryImpl implements AppUserCommandRepository {
     private final AppUserRepository appUserRepository;
 
     @Autowired()

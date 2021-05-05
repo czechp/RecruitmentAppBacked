@@ -17,8 +17,8 @@ public class AwsFileStorage implements FileStorage {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    void init(){
+    void init() {
         amazonS3Client.listBuckets().stream()
-                .forEach(bucket -> System.out.println(bucket));
+                .forEach(System.out::println);
     }
 }

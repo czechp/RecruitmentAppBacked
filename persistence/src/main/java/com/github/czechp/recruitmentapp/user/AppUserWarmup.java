@@ -23,9 +23,8 @@ class AppUserWarmup {
     }
 
 
-    //TODO: return here and save users
     @EventListener(ApplicationReadyEvent.class)
-    void init(){
+    void init() {
         List<AppUser> users = Arrays.asList(
                 new AppUser("admin123", "admin123", "admin123@gmail.com"),
                 new AppUser("superuser123", "superuser123", "superuser123@gmail.com"),
@@ -40,7 +39,6 @@ class AppUserWarmup {
                 }));
 
     }
-
 
 
 }

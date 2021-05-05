@@ -5,7 +5,6 @@ import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +30,8 @@ public class QuestionQueryService {
             case "ELECTRIC":
                 questions = getQuestionForCategory(Category.ELECTRIC);
                 break;
+            default:
+                ;
         }
         return questions;
     }

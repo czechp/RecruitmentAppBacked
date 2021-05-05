@@ -9,6 +9,9 @@ import java.util.Set;
 
 public class QuestionFactory {
 
+    private QuestionFactory() {
+    }
+
     static Question dtoToPoJo(QuestionCommandDto questionCommandDto) {
         return new Question(questionCommandDto.getContent(), questionCommandDto.getCategory());
     }

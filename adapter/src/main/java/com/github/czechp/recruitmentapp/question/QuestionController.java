@@ -4,14 +4,12 @@ import com.github.czechp.recruitmentapp.question.dto.AnswerCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionCommandDto;
 import com.github.czechp.recruitmentapp.question.dto.QuestionQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController()
 @RequestMapping("/api/questions")

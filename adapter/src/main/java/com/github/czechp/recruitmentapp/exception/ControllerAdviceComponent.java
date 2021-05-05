@@ -21,7 +21,7 @@ class ControllerAdviceComponent {
     }
 
     @ExceptionHandler({UnauthorizedException.class})
-    ResponseEntity unauthorizedExceptionHandler(Exception exception){
+    ResponseEntity unauthorizedExceptionHandler(Exception exception) {
         return buildExceptionResponse(exception.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 

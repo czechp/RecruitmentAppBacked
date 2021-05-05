@@ -24,11 +24,6 @@ class QuestionWarmup {
         Question question2 = new Question("Question 2", Category.ELECTRIC);
         Question question3 = new Question("Question 3", Category.ELECTRIC);
 
-        Answer answer1 = new Answer("Answer 1", false);
-        Answer answer2 = new Answer("Answer 2", true);
-        Answer answer3 = new Answer("Answer 3", false);
-        Answer answer4 = new Answer("Answer 4", false);
-
         Arrays.asList(question1, question2, question3)
                 .stream()
                 .forEach(question -> {

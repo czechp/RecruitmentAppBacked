@@ -51,7 +51,7 @@ class QuestionCommandService {
 
         boolean alreadyCorrectAnswerExists = question.getAnswers()
                 .stream()
-                .anyMatch(answer -> answer.isCorrect());
+                .anyMatch(Answer::isCorrect);
 
         if (alreadyCorrectAnswerExists && answerCommandDto.isCorrect())
             throw new BadRequestException("Question got already correct answer");
